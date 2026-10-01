@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Leave - LeavePortal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background: #f8fafc; color: #1e293b; }
+        .sidebar { width: 240px; background: #0f172a; color: #94a3b8; padding: 20px 0; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+        .nav-item.active, .nav-item:hover { background: #1e293b; color: #38bdf8; }
+        .main-content { flex: 1; padding: 32px; overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; }
+        .form-card { background: white; padding: 32px; border-radius: 12px; border: 1px solid #e2e8f0; width: 100%; max-width: 600px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .form-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px; }
+        .form-control { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: 0.2s; }
+        .form-control:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn-submit { background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; width: 100%; transition: 0.2s; }
+        .btn-submit:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i> LeavePortal</div>
+        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="apply-leave.html" class="nav-item active"><i class="fa-solid fa-pen-to-square"></i> Apply Leave</a>
+        <a href="my-leaves.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> My Leaves</a>
+        <a href="calendar.html" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Calendar</a>
+        <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="form-card">
+            <h2 class="form-title">Apply for Leave</h2>
+            <form id="leaveForm" onsubmit="handleLeaveSubmit(event)">
+                
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select id="leaveType" class="form-control" required>
+                        <option value="">Select Leave Type</option>
+                        <option value="Casual Leave">Casual Leave</option>
+                        <option value="Sick Leave">Sick Leave</option>
+                        <option value="Earned Leave">Earned Leave</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" id="startDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" id="endDate" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Reason for Leave</label>
+                    <select id="leaveReasonSelect" class="form-control" onchange="toggleOtherReason(this.value)" required>
+                        <option value="">-- Select Reason --</option>
+                        <option value="Sick Leave">Sick Leave</option>
+                        <option value="Casual Leave">Casual Leave</option>
+                        <option value="Maternity Leave">Maternity Leave</option>
+                        <option value="Paternity Leave">Paternity Leave</option>
+                        <option value="Marriage Leave">Marriage Leave</option>
+                        <option value="Personal Work">Personal Work</option>
+                        <option value="Family Function">Family Function</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="otherReasonBox" style="display: none;">
+                    <label>Please specify "Other" Reason</label>
+                    <input type="text" id="otherReasonInput" class="form-control" placeholder="Enter your reason in detail...">
+                </div>
+
+                <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Submit Leave Request</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleOtherReason(val) {
+            const box = document.getElementById('otherReasonBox');
+            const input = document.getElementById('otherReasonInput');
+            if(val === 'Other') {
+                box.style.display = 'block';
+                input.required = true;
+            } else {
+                box.style.display = 'none';
+                input.required = false;
+            }
+        }
+
+        function handleLeaveSubmit(e) {
+            e.preventDefault();
+            
+            const type = document.getElementById('leaveType').value;
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+            let reason = document.getElementById('leaveReasonSelect').value;
+            if(reason === 'Other') {
+                reason = document.getElementById('otherReasonInput').value;
+            }
+
+            const newLeave = {
+                id: 'LV-' + Math.floor(1000 + Math.random() * 9000),
+                type: type,
+                dates: start + ' to ' + end,
+                reason: reason,
+                status: 'Pending',
+                appliedOn: new Date().toISOString().split('T')[0]
+            };
+
+            let leaves = JSON.parse(localStorage.getItem('myLeaves')) || [];
+            leaves.unshift(newLeave); // Add new request to top
+            localStorage.setItem('myLeaves', JSON.stringify(leaves));
+
+            alert('Leave Applied Successfully!');
+            window.location.href = 'my-leaves.html';
+        }
+    </script>
+</body>
+</html>

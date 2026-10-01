@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Reports - LeavePortal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background: #f8fafc; color: #1e293b; }
+        .sidebar { width: 240px; background: #0f172a; color: #94a3b8; padding: 20px 0; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+        .nav-item.active, .nav-item:hover { background: #1e293b; color: #38bdf8; }
+        .main-content { flex: 1; padding: 24px; overflow-y: auto; }
+        .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+        .report-card { background: white; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .chart-container { position: relative; height: 260px; width: 100%; display: flex; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i> AdminPortal</div>
+        <a href="admin-dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Admin Home</a>
+        <a href="employee-management.html" class="nav-item"><i class="fa-solid fa-users"></i> Manage Employees</a>
+        <a href="reports.html" class="nav-item active"><i class="fa-solid fa-chart-line"></i> Reports</a>
+        <a href="holidays.html" class="nav-item"><i class="fa-solid fa-umbrella-beach"></i> Holidays</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <h2>Leave Analytics & Visual Reports</h2>
+        
+        <div class="report-grid">
+            <div class="report-card">
+                <h3 style="font-size: 16px; margin-bottom: 16px; color: #0f172a;">Most Common Leave Reasons</h3>
+                <div class="chart-container">
+                    <canvas id="reasonsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="report-card">
+                <h3 style="font-size: 16px; margin-bottom: 16px; color: #0f172a;">Department-wise Leave Usage</h3>
+                <div class="chart-container">
+                    <canvas id="deptChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pie Chart for Reasons
+        new Chart(document.getElementById('reasonsChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Casual Leave', 'Sick Leave', 'Personal Work', 'Marriage/Function', 'Other'],
+                datasets: [{
+                    data: [35, 25, 20, 12, 8],
+                    backgroundColor: ['#2563eb', '#0ea5e9', '#10b981', '#ec4899', '#f59e0b']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // Doughnut Chart for Departments
+        new Chart(document.getElementById('deptChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Computer Science (CSE)', 'Information Tech (IT)', 'Electronics (ECE)', 'Mechanical (ME)'],
+                datasets: [{
+                    data: [40, 30, 18, 12],
+                    backgroundColor: ['#8b5cf6', '#3b82f6', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    </script>
+</body>
+</html>

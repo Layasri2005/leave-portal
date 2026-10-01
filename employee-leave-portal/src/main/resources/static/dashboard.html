@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LeavePortal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background: #f8fafc; color: #1e293b; }
+        
+        /* Sidebar Styling */
+        .sidebar { width: 260px; background: #0f172a; color: #94a3b8; padding: 20px 0; display: flex; flex-direction: column; overflow-y: auto; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .section-label { padding: 12px 20px 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; }
+        .nav-item { padding: 10px 20px; color: #94a3b8; text-decoration: none; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .nav-item.active, .nav-item:hover { background: #1e293b; color: #38bdf8; }
+        .nav-divider { border-top: 1px solid #1e293b; margin: 10px 0; }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 24px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .stat-card h4 { font-size: 13px; color: #64748b; margin-bottom: 8px; }
+        .stat-card .value { font-size: 28px; font-weight: 700; color: #0f172a; }
+
+        /* Tables */
+        .table-container { background: white; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 14px 18px; text-align: left; font-size: 13px; border-bottom: 1px solid #f1f5f9; }
+        th { background: #f8fafc; font-weight: 600; color: #64748b; }
+        
+        .badge { padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; display: inline-block; }
+        .badge-approved { background: #dcfce7; color: #15803d; }
+        .badge-pending { background: #fef3c7; color: #d97706; }
+    </style>
+</head>
+<body>
+
+    <!-- 11-Page Navigation Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i> LeavePortal</div>
+        
+        <div class="section-label">Employee Portal</div>
+        <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="apply-leave.html" class="nav-item"><i class="fa-solid fa-pen-to-square"></i> Apply Leave</a>
+        <a href="my-leaves.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> My Leaves</a>
+        <a href="calendar.html" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Calendar</a>
+        <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+        <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> Profile</a>
+
+        <div class="nav-divider"></div>
+
+        <div class="section-label">Admin & Management</div>
+        <a href="admin-dashboard.html" class="nav-item"><i class="fa-solid fa-user-shield"></i> Admin Dashboard</a>
+        <a href="manager-dashboard.html" class="nav-item"><i class="fa-solid fa-list-check"></i> Manager Approvals</a>
+        <a href="employee-management.html" class="nav-item"><i class="fa-solid fa-users"></i> Employee Management</a>
+        <a href="holidays.html" class="nav-item"><i class="fa-solid fa-plane"></i> Company Holidays</a>
+        <a href="reports.html" class="nav-item"><i class="fa-solid fa-chart-line"></i> Reports & Analytics</a>
+
+        <a href="index.html" class="nav-item" style="margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <!-- Main Dashboard Area -->
+    <div class="main-content">
+        <div class="header">
+            <div>
+                <h2>Good Morning, Laya Sri!</h2>
+                <p style="color: #64748b; font-size: 14px;">Employee ID: EMP-2026-09</p>
+            </div>
+            <a href="apply-leave.html" style="background: #0284c7; color: white; text-decoration: none; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;"><i class="fa-solid fa-plus"></i> Apply Leave</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Casual Leaves Left</h4>
+                <div class="value" style="color: #0284c7;">8</div>
+            </div>
+            <div class="stat-card">
+                <h4>Sick Leaves Left</h4>
+                <div class="value" style="color: #10b981;">5</div>
+            </div>
+            <div class="stat-card">
+                <h4>Earned Leaves Left</h4>
+                <div class="value" style="color: #8b5cf6;">10</div>
+            </div>
+            <div class="stat-card">
+                <h4>Pending Approvals</h4>
+                <div class="value" style="color: #f59e0b;">1</div>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 12px; font-size: 16px;">Recent Leave Applications</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Leave Type</th>
+                        <th>Dates</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="recentLeavesBody">
+                    <tr>
+                        <td><b>LV-1001</b></td>
+                        <td>Casual Leave</td>
+                        <td>2026-10-10 to 2026-10-12</td>
+                        <td>Personal Work</td>
+                        <td><span class="badge badge-approved">Approved</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>LV-1002</b></td>
+                        <td>Sick Leave</td>
+                        <td>2026-10-15 to 2026-10-16</td>
+                        <td>Fever</td>
+                        <td><span class="badge badge-pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="leave-app.js"></script>
+</body>
+</html>

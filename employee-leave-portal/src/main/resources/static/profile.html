@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile - LeavePortal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background: #f8fafc; color: #1e293b; }
+        .sidebar { width: 240px; background: #0f172a; color: #94a3b8; padding: 20px 0; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+        .nav-item.active, .nav-item:hover { background: #1e293b; color: #38bdf8; }
+        .main-content { flex: 1; padding: 24px; overflow-y: auto; }
+        .profile-card { background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; max-width: 650px; }
+        .profile-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+        .avatar { width: 70px; height: 70px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .info-item label { font-size: 12px; color: #64748b; font-weight: 600; display: block; margin-bottom: 4px; }
+        .info-item div { font-size: 15px; font-weight: 600; color: #0f172a; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i> LeavePortal</div>
+        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="apply-leave.html" class="nav-item"><i class="fa-solid fa-pen-to-square"></i> Apply Leave</a>
+        <a href="my-leaves.html" class="nav-item"><i class="fa-solid fa-list-check"></i> My Leaves</a>
+        <a href="calendar.html" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Calendar</a>
+        <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+        <a href="profile.html" class="nav-item active"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <h2 style="margin-bottom: 20px;">My Profile</h2>
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="avatar">LS</div>
+                <div>
+                    <h3 id="profName">Laya Sri</h3>
+                    <p style="font-size: 13px; color: #64748b;" id="profDept">Software Developer - Computer Science</p>
+                </div>
+            </div>
+            <div class="info-grid">
+                <div class="info-item"><label>EMPLOYEE ID</label><div id="profId">EMP001</div></div>
+                <div class="info-item"><label>EMAIL ADDRESS</label><div id="profEmail">layasri@gmail.com</div></div>
+                <div class="info-item"><label>PHONE NUMBER</label><div id="profPhone">+91 98765 43210</div></div>
+                <div class="info-item"><label>JOINING DATE</label><div>01 Jan 2025</div></div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user) {
+            document.getElementById('profName').innerText = user.name;
+            document.getElementById('profDept').innerText = user.designation + " - " + user.dept;
+            document.getElementById('profId').innerText = user.empId;
+            document.getElementById('profEmail').innerText = user.email;
+            document.getElementById('profPhone').innerText = user.phone;
+        }
+    </script>
+</body>
+</html>

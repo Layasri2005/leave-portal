@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Calendar - LeavePortal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background: #f8fafc; color: #1e293b; }
+        .sidebar { width: 240px; background: #0f172a; color: #94a3b8; padding: 20px 0; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+        .nav-item.active, .nav-item:hover { background: #1e293b; color: #38bdf8; }
+        .main-content { flex: 1; padding: 24px; overflow-y: auto; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 16px 24px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .day-header { text-align: center; font-weight: 600; color: #64748b; font-size: 13px; padding-bottom: 10px; }
+        .day-cell { min-height: 95px; border: 1px solid #f1f5f9; border-radius: 8px; padding: 8px; background: #fafafa; font-size: 12px; position: relative; }
+        .day-number { font-weight: 700; color: #334155; margin-bottom: 6px; }
+        .event-tag { font-size: 10px; padding: 3px 6px; border-radius: 4px; color: white; margin-top: 4px; font-weight: 600; display: block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+        .approved { background: #10b981; }
+        .pending { background: #f59e0b; }
+        .rejected { background: #ef4444; }
+        .holiday { background: #8b5cf6; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i> LeavePortal</div>
+        <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="apply-leave.html" class="nav-item"><i class="fa-solid fa-pen-to-square"></i> Apply Leave</a>
+        <a href="my-leaves.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> My Leaves</a>
+        <a href="calendar.html" class="nav-item active"><i class="fa-solid fa-calendar-days"></i> Calendar</a>
+        <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="calendar-header">
+            <h2>October 2026</h2>
+            <div style="display: flex; gap: 15px; font-size: 12px; font-weight: 600;">
+                <span style="color: #10b981;"><i class="fa-solid fa-circle"></i> Approved</span>
+                <span style="color: #f59e0b;"><i class="fa-solid fa-circle"></i> Pending</span>
+                <span style="color: #ef4444;"><i class="fa-solid fa-circle"></i> Rejected</span>
+                <span style="color: #8b5cf6;"><i class="fa-solid fa-circle"></i> Holiday</span>
+            </div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid">
+            <div class="day-header">Sun</div>
+            <div class="day-header">Mon</div>
+            <div class="day-header">Tue</div>
+            <div class="day-header">Wed</div>
+            <div class="day-header">Thu</div>
+            <div class="day-header">Fri</div>
+            <div class="day-header">Sat</div>
+            <!-- Calendar cells generated via Javascript -->
+        </div>
+    </div>
+
+    <script>
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const leaves = JSON.parse(localStorage.getItem('myLeaves')) || [
+                { id: 'LV-1001', type: 'Casual Leave', dates: '2026-10-10 to 2026-10-12', reason: 'Personal Work', status: 'Approved' },
+                { id: 'LV-1002', type: 'Sick Leave', dates: '2026-10-15 to 2026-10-16', reason: 'Fever', status: 'Pending' }
+            ];
+
+            const holidays = {
+                2: 'Gandhi Jayanti',
+                20: 'Dussehra'
+            };
+
+            // Offset for October 2026 (Thursday start)
+            let html = `
+                <div class="day-header">Sun</div>
+                <div class="day-header">Mon</div>
+                <div class="day-header">Tue</div>
+                <div class="day-header">Wed</div>
+                <div class="day-header">Thu</div>
+                <div class="day-header">Fri</div>
+                <div class="day-header">Sat</div>
+                <div class="day-cell"></div><div class="day-cell"></div><div class="day-cell"></div><div class="day-cell"></div>
+            `;
+
+            for (let day = 1; day <= 31; day++) {
+                let dayStr = day < 10 ? '0' + day : '' + day;
+                let currentDate = `2026-10-${dayStr}`;
+                let cellEvents = '';
+
+                // Check Holidays
+                if (holidays[day]) {
+                    cellEvents += `<span class="event-tag holiday">${holidays[day]}</span>`;
+                }
+
+                // Check Dynamic Leaves
+                leaves.forEach(leave => {
+                    if (leave.dates.includes(currentDate)) {
+                        let statusClass = 'pending';
+                        if (leave.status === 'Approved') statusClass = 'approved';
+                        if (leave.status === 'Rejected') statusClass = 'rejected';
+
+                        cellEvents += `<span class="event-tag ${statusClass}">${leave.type} (${leave.status})</span>`;
+                    }
+                });
+
+                html += `
+                    <div class="day-cell">
+                        <div class="day-number">${day}</div>
+                        ${cellEvents}
+                    </div>
+                `;
+            }
+            grid.innerHTML = html;
+        }
+
+        window.onload = renderCalendar;
+    </script>
+</body>
+</html>

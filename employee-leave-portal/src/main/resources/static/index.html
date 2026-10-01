@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LeavePortal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background: #f8fafc; }
+        .left-banner { flex: 1; background: #f1f5f9; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
+        .right-form { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; background: #ffffff; }
+        .brand { font-size: 28px; font-weight: 700; color: #1e293b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .brand i { color: #2563eb; }
+        .login-card { width: 100%; max-width: 380px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { font-size: 13px; font-weight: 500; color: #64748b; margin-bottom: 6px; display: block; }
+        .form-control { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
+        .btn-primary { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .btn-secondary { width: 100%; padding: 10px; background: #f1f5f9; color: #2563eb; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 10px; text-align: center; text-decoration: none; display: block; }
+    </style>
+</head>
+<body>
+    <div class="left-banner">
+        <div class="brand"><i class="fa-solid fa-leaf"></i> LeavePortal</div>
+        <p style="color: #64748b; text-align: center;">Work Better • Take Breaks • Be Happier</p>
+    </div>
+    <div class="right-form">
+        <div class="login-card">
+            <h2 style="font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Welcome Back!</h2>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 24px;">Login to your account</p>
+            <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
+                <div class="form-group">
+                    <label>Employee ID / Email</label>
+                    <input type="text" class="form-control" value="EMP001" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" value="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <a href="manager-dashboard.html" class="btn-secondary">Admin / Manager Login</a>
+            </form>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

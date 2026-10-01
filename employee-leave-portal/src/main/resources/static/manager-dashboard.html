@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manager Dashboard - LeavePortal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { display: flex; height: 100vh; background: #f8fafc; color: #1e293b; }
+        .sidebar { width: 240px; background: #0f172a; color: #94a3b8; padding: 20px 0; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 0 20px 20px; font-size: 20px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 12px 20px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+        .nav-item.active, .nav-item:hover { background: #1e293b; color: #38bdf8; }
+        .main-content { flex: 1; padding: 24px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; margin-top: 20px; }
+        th, td { padding: 14px 18px; text-align: left; font-size: 13px; border-bottom: 1px solid #f1f5f9; }
+        th { background: #f8fafc; font-weight: 600; color: #64748b; }
+        .btn-action { padding: 6px 14px; border-radius: 6px; border: none; font-weight: 600; font-size: 12px; cursor: pointer; transition: 0.2s; }
+        .btn-approve { background: #10b981; color: white; }
+        .btn-approve:hover { background: #059669; }
+        .btn-reject { background: #ef4444; color: white; margin-left: 6px; }
+        .btn-reject:hover { background: #dc2626; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; display: inline-block; }
+        .badge-pending { background: #fef3c7; color: #d97706; }
+        .badge-approved { background: #dcfce7; color: #15803d; }
+        .badge-rejected { background: #fee2e2; color: #b91c1c; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i> ManagerPortal</div>
+        <a href="manager-dashboard.html" class="nav-item active"><i class="fa-solid fa-list-check"></i> Pending Approvals</a>
+        <a href="index.html" class="nav-item" style="margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <h2>Manager Dashboard - Leave Requests</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Employee Name</th>
+                    <th>Leave Type</th>
+                    <th>Dates</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="managerTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="leave-app.js"></script>
+    <script>
+        function renderManagerTable() {
+            const tableBody = document.getElementById('managerTableBody');
+            const leaves = getLeaves();
+            tableBody.innerHTML = '';
+
+            leaves.forEach((leave) => {
+                let badgeClass = 'badge-pending';
+                if(leave.status === 'Approved') badgeClass = 'badge-approved';
+                if(leave.status === 'Rejected') badgeClass = 'badge-rejected';
+
+                let actionHtml = '';
+                if (leave.status === 'Pending') {
+                    actionHtml = `
+                        <button class="btn-action btn-approve" data-id="${leave.id}" data-action="Approved">Approve</button>
+                        <button class="btn-action btn-reject" data-id="${leave.id}" data-action="Rejected">Reject</button>
+                    `;
+                } else {
+                    actionHtml = `<span style="color:#94a3b8; font-weight: 500;">Completed</span>`;
+                }
+
+                tableBody.innerHTML += `
+                    <tr>
+                        <td><b>${leave.id}</b></td>
+                        <td>Laya Sri</td>
+                        <td>${leave.type}</td>
+                        <td>${leave.dates}</td>
+                        <td>${leave.reason}</td>
+                        <td><span class="badge ${badgeClass}">${leave.status}</span></td>
+                        <td>${actionHtml}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Global Click Listener for Action Buttons
+        document.getElementById('managerTableBody').addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-action')) {
+                const id = e.target.getAttribute('data-id');
+                const action = e.target.getAttribute('data-action');
+                
+                if (updateLeaveStatus(id, action)) {
+                    alert(`Leave Request ${id} has been ${action}!`);
+                    renderManagerTable();
+                }
+            }
+        });
+
+        window.onload = renderManagerTable;
+    </script>
+</body>
+</html>
